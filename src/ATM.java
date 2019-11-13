@@ -7,9 +7,6 @@ public class ATM {
     private BankAccount activeAccount;
     private Bank bank;
     
-    private Scanner in;
-    private BankAccount activeAccount;
-    
     public static final int VIEW = 1;
     public static final int DEPOSIT = 2;
     public static final int WITHDRAW = 3;
@@ -19,10 +16,20 @@ public class ATM {
     public static final int INSUFFICIENT = 1;
     public static final int SUCCESS = 2;
     
+    /**
+     * Constructs a new instance of the ATM class.
+     */
+    
     public ATM() {
-        in = new Scanner(System.in);
+        this.in = new Scanner(System.in);
         
         activeAccount = new BankAccount(1234, 123456789, 0, new User("Ryan", "Wilson"));
+        
+        try {
+			this.bank = new Bank();
+		} catch (IOException e) {
+			// cleanup any resources (i.e., the Scanner) and exit
+		}
     }
     
     public void startup() {
@@ -76,9 +83,9 @@ public class ATM {
     }
     
     public void deposit() {
-    	System.out.print("\nEnter amount: ");
+        System.out.print("\nEnter amount: ");
         double amount = in.nextDouble();
-            
+        
         int status = activeAccount.deposit(amount);
         if (status == ATM.INVALID) {
             System.out.println("\nDeposit rejected. Amount must be greater than $0.00.\n");
@@ -88,9 +95,9 @@ public class ATM {
     }
     
     public void withdraw() {
-    	System.out.print("\nEnter amount: ");
+        System.out.print("\nEnter amount: ");
         double amount = in.nextDouble();
-            
+        
         int status = activeAccount.withdraw(amount);
         if (status == ATM.INVALID) {
             System.out.println("\nWithdrawal rejected. Amount must be greater than $0.00.\n");
@@ -110,31 +117,13 @@ public class ATM {
         System.exit(0);
     }
     
-    public static void main(String[] args) {
-        ATM atm = new ATM();
-        
-        atm.startup();
-    }
-    
-    /**
-     * Constructs a new instance of the ATM class.
-     */
-    
-    public ATM() {
-        this.in = new Scanner(System.in);
-        
-        try {
-			this.bank = new Bank();
-		} catch (IOException e) {
-			// cleanup any resources (i.e., the Scanner) and exit
-		}
-    }
-    
     /*
      * Application execution begins here.
      */
     
     public static void main(String[] args) {
         ATM atm = new ATM();
+        
+        atm.startup();
     }
 }
