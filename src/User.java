@@ -7,7 +7,14 @@ public class User {
             this.firstName = firstName;
             this.lastName = lastName;
     }
-
+    
+    public String getFirstName() {
+        return firstName;
+    }
+    
+    public String getLastName() {
+        return lastName;
+    }
 
     /**
      * Formats the first and last name in preparation to be written to the data file.
